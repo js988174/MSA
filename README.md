@@ -27,6 +27,12 @@
   * Continuous Delivery
 
   
-# Factors 
+# Factors(https://12factor.net/) 
 <img src="https://user-images.githubusercontent.com/76925402/230910833-f3a5a0cb-736e-4b7a-a78c-24f7ff6aba54.png">
 
+
+# Monolith vs MSA
+* Monolith: 하나의 서비스 또는 애플리케이션이 **하나의 거대한** 아키텍쳐를 가질 때
+* MSA: 애플리케이션을 느슨하게 결합된 **서비스의 모임으로** 구조화하는 서비스 지향 아키텍처(SOA) 스타일의 일종인 소프트웨어 개발 기법
+
+<img src="https://user-images.githubusercontent.com/76925402/230914245-50074fc8-c05e-44f1-bf2d-563ed20f63da.png">
