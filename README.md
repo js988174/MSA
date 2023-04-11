@@ -36,3 +36,4 @@
 * MSA: 애플리케이션을 느슨하게 결합된 **서비스의 모임으로** 구조화하는 서비스 지향 아키텍처(SOA) 스타일의 일종인 소프트웨어 개발 기법
 
 <img src="https://user-images.githubusercontent.com/76925402/230914245-50074fc8-c05e-44f1-bf2d-563ed20f63da.png">
+
