@@ -21,6 +21,7 @@ spring:
 #            - AddRequestHeader=first-request, first-requests-header2
 #            - AddResponseHeader=first-response, first-response-header2
             - CustomFilter
+            - LoggingFilter
 
 
 eureka:
