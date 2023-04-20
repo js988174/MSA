@@ -2,6 +2,7 @@ package com.spring.userservice.controller;
 
 import com.spring.userservice.dto.OrderDto;
 import com.spring.userservice.dto.UserDto;
+import com.spring.userservice.entity.OrderEntity;
 import com.spring.userservice.service.OrderService;
 import com.spring.userservice.vo.RequestOrder;
 import com.spring.userservice.vo.RequestUser;
@@ -15,6 +16,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/order-service")
@@ -43,5 +47,17 @@ public class OrderController {
         ResponseOder responseOder = mapper.map(createOrder, ResponseOder.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOder);
+    }
+
+    @GetMapping("/{userId}/orders")
+    public ResponseEntity<List<ResponseOder>> getUsers(@PathVariable("userId") String userId) {
+        Iterable<OrderEntity> orderList = orderService.getOrdersByUserId(userId);
+
+        List<ResponseOder> result = new ArrayList<>();
+        orderList.forEach(v -> {
+            result.add(new ModelMapper().map(v, ResponseOder.class));
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
