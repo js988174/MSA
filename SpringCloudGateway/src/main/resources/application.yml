@@ -16,18 +16,32 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/**
-
-        - id: first-service
-          uri: lb://MY-FIRST-SERVICE
-          predicates:
-            - Path=/first-service/**
+            - Path=/user-service/login
+            - Method=POST
           filters:
 #            - AddRequestHeader=first-request, first-requests-header2
 #            - AddResponseHeader=first-response, first-response-header2
-            - CustomFilter
-            - LoggingFilter
+#            - CustomFilter
+#            - LoggingFilter
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+            - Method=GET
+          filters:
+            #            - AddRequestHeader=first-request, first-requests-header2
+            #            - AddResponseHeader=first-response, first-response-header2
+            #            - CustomFilter
+            #            - LoggingFilter
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
+#        - id: first-service
+#          uri: lb://MY-FIRST-SERVICE
+#          predicates:
+#            - Path=/first-service/**
 
 eureka:
   client:

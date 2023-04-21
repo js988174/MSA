@@ -4,6 +4,7 @@ import com.spring.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final Environment environment;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -27,10 +29,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .hasIpAddress("192.168.0.8")
                 .and()
                 .addFilter(getAuthenticationFilter());
+
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        AuthenticationFilter authenticationFilter =
+                new AuthenticationFilter(authenticationManager(), userService, environment);
         authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;
@@ -38,7 +42,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+//        super.configure(auth);
     }
 
     @Bean
