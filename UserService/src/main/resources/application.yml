@@ -24,3 +24,10 @@ eureka:
 greeting:
   message: Welcome to the Simple E-commerce
 
+logging:
+  level:
+    com.spring.userservice: DEBUG
+
+token:
+  expiration_time: 864000000
+  secret: uesr_token
