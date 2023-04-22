@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -61,7 +62,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         String token = Jwts.builder()
                 .setSubject(userDetails.getUserId())
-                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time"))))
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(Objects.requireNonNull(env.getProperty("token.expiration_time")))))
                 .compact();
 
         response.addHeader("token", token);
