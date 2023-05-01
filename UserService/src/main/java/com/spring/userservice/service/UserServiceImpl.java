@@ -1,6 +1,7 @@
 package com.spring.userservice.service;
 
 import com.spring.userservice.Repository.UserRepository;
+import com.spring.userservice.client.OrderServiceClient;
 import com.spring.userservice.dto.UserDto;
 import com.spring.userservice.entity.UserEntity;
 import com.spring.userservice.vo.ResponseOder;
@@ -37,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     private final RestTemplate restTemplate;
 
+    private final OrderServiceClient orderServiceClient;
+
     @Override
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
@@ -64,13 +67,15 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-        ResponseEntity<List<ResponseOder>> orderListResponse =
-                restTemplate.exchange(orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<ResponseOder>>() {
-        });
+//        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+//        ResponseEntity<List<ResponseOder>> orderListResponse =
+//                restTemplate.exchange(orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<ResponseOder>>() {
+//        });
+//        List<ResponseOder> orders = orderListResponse.getBody();
+//        userDto.setOrders(orders);
 
-        List<ResponseOder> orders = orderListResponse.getBody();
-        userDto.setOrders(orders);
+        List<ResponseOder> orderList = orderServiceClient.getOrders(userId);
+        userDto.setOrders(orderList);
 
         return userDto;
     }
